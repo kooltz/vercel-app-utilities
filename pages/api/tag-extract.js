@@ -1,11 +1,24 @@
 const axios = require("axios");
 
-export default function handler(req, res) {
-  // res.status(200).json({ name: "John Doe" });
+// https://blog.naver.com/BlogTagListInfo.naver?blogId=s600105&logNoList=222811851369&logType=mylog
 
-  const url =
-    "https://blog.naver.com/BlogTagListInfo.naver?blogId=s600105&logNoList=222811851369&logType=mylog";
-  axios.get(url).then((result) => {
-    res.status(200).json(result.data);
-  });
+export default function handler(req, res) {
+  // blogId, logNoList
+  const params = req.query;
+
+  axios
+    .get("https://blog.naver.com/BlogTagListInfo.naver", { params: params })
+    .then((result) => {
+      //   res.status(200).json(result.data);
+
+      const { taglist } = result.data;
+      console.log(taglist);
+
+      if (!taglist || taglist.length === 0) {
+        res.status(400).send("Invalid Response");
+        return;
+      }
+
+      res.status(200).json(taglist[0]["tagName"]);
+    });
 }
