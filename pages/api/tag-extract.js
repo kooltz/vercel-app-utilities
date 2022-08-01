@@ -9,10 +9,7 @@ export default function handler(req, res) {
   axios
     .get("https://blog.naver.com/BlogTagListInfo.naver", { params: params })
     .then((result) => {
-      //   res.status(200).json(result.data);
-
       const { taglist } = result.data;
-      console.log(taglist);
 
       if (!taglist || taglist.length === 0) {
         res.status(400).send("Invalid Response");
