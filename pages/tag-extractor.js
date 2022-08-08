@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, Container, TextField, Button, Box } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import CustomAppBar from "/src/components/CustomAppBar";
 import Head from "next/head";
 import processExtract from "/src/processExtract";
@@ -9,6 +10,7 @@ const pageTitle = "Tag Extractor";
 const theme = createTheme();
 
 export default function TagExtractor() {
+  const [loading, setLoading] = useState(false);
   const [inputUrl, setInputUrl] = useState("");
   const [extractResult, setExtractResult] = useState("");
   const [taggedResult, setTaggedResult] = useState("");
@@ -27,19 +29,33 @@ export default function TagExtractor() {
   }
 
   function handleExtractResultCopy() {
-    navigator.clipboard.writeText(extractResult);
+    navigator.clipboard.writeText(extractResult).then(() => {
+      alert("Copied");
+    });
   }
 
   function handleTaggedResultCopy() {
-    navigator.clipboard.writeText(taggedResult);
+    navigator.clipboard.writeText(taggedResult).then(() => {
+      alert("Copied");
+    });
   }
 
   async function handleExtract() {
-    const tagList = await processExtract(inputUrl);
-    setExtractResult(tagList);
+    setExtractResult("");
+    setTaggedResult("");
+    setLoading(true);
 
-    const taggedList = makeTaggedList(tagList);
-    setTaggedResult(taggedList);
+    try {
+      const tagList = await processExtract(inputUrl);
+      setExtractResult(tagList);
+
+      const taggedList = makeTaggedList(tagList);
+      setTaggedResult(taggedList);
+    } catch (error) {
+      alert(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -58,15 +74,17 @@ export default function TagExtractor() {
               variant="outlined"
               size="small"
               label="URL"
+              placeholder="https://blog.naver.com/~~~"
               onChange={handleInputUrl}
             />
-            <Button
+            <LoadingButton
               sx={{ ml: 3, mt: 0.3, width: "20%" }}
               variant="contained"
+              loading={loading}
               onClick={handleExtract}
             >
               Extract
-            </Button>
+            </LoadingButton>
           </Box>
           <Box sx={{ mt: 2 }}>
             <TextField
@@ -74,6 +92,7 @@ export default function TagExtractor() {
               multiline
               disabled
               rows={4}
+              placeholder="Result 1"
               variant="outlined"
               value={extractResult}
             ></TextField>
@@ -91,6 +110,7 @@ export default function TagExtractor() {
               multiline
               disabled
               rows={4}
+              placeholder="Result 2"
               variant="outlined"
               value={taggedResult}
             ></TextField>
