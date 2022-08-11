@@ -17,5 +17,8 @@ export default function handler(req, res) {
       }
 
       res.status(200).json(taglist[0]["tagName"]);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
     });
 }

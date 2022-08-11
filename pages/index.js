@@ -21,8 +21,8 @@ export default function Home() {
         <Box sx={{ minWidth: 150 }}>
           <Card variant="outlined">
             <CardActions>
-              <Button size="medium" href="./tag-extractor">
-                Tag Extractor
+              <Button size="medium" href="./naver-blog-util">
+                네이버 블로그 유틸
               </Button>
             </CardActions>
           </Card>
