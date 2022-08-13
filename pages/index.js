@@ -11,6 +11,20 @@ import CustomAppBar from "/src/components/CustomAppBar";
 
 const theme = createTheme();
 
+function CardButton(props) {
+  return (
+    <Box sx={{ minWidth: 150, mt: 2, mb: 2 }}>
+      <Card variant="outlined">
+        <CardActions>
+          <Button size="medium" href={props.url}>
+            {props.children}
+          </Button>
+        </CardActions>
+      </Card>
+    </Box>
+  );
+}
+
 export default function Home() {
   return (
     <ThemeProvider theme={theme}>
@@ -18,15 +32,8 @@ export default function Home() {
       <CustomAppBar title="Kooltz Utility"></CustomAppBar>
 
       <Container component="main" maxWidth="sm" sx={{ mb: 4, mt: 4 }}>
-        <Box sx={{ minWidth: 150 }}>
-          <Card variant="outlined">
-            <CardActions>
-              <Button size="medium" href="./naver-blog-util">
-                네이버 블로그 유틸
-              </Button>
-            </CardActions>
-          </Card>
-        </Box>
+        <CardButton url="./naver-blog-util">네이버 블로그 유틸</CardButton>
+        <CardButton url="./notion-util">노션 유틸</CardButton>
       </Container>
     </ThemeProvider>
   );
