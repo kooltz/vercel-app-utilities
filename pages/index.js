@@ -32,7 +32,7 @@ export default function Home() {
       <CustomAppBar title="Kooltz Utility"></CustomAppBar>
 
       <Container component="main" maxWidth="sm" sx={{ mb: 4, mt: 4 }}>
-        <CardButton url="./naver-blog-util">네이버 블로그 유틸</CardButton>
+        {/* <CardButton url="./naver-blog-util">네이버 블로그 유틸</CardButton> */}
         <CardButton url="./notion-util">노션 유틸</CardButton>
       </Container>
     </ThemeProvider>
