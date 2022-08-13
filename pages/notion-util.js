@@ -13,7 +13,7 @@ import {
 import { LoadingButton } from "@mui/lab";
 import CustomAppBar from "/src/components/CustomAppBar";
 import { getPage, getProperty, getPages } from "../src/notionApiWrapper";
-import { getBlogTagList, getBlogTitle } from "/src/NaverApiWrapper";
+import { getBlogTagList, getBlogTitle } from "../src/NaverApiWrapper";
 
 const PAGE_TITLE = "노션 유틸";
 
