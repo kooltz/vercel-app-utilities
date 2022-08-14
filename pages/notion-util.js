@@ -12,8 +12,9 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import CustomAppBar from "/src/components/CustomAppBar";
-import { getPage, getProperty, getPages } from "../src/notionApiWrapper";
-import { getBlogTagList, getBlogTitle } from "../src/NaverApiWrapper";
+// import { getPage, getProperty, getPages } from "/src/notionApiWrapper";
+// import { getBlogTagList, getBlogTitle } from "/src/naverApiWrapper";
+import { getNotionPages, getDescriptions } from "/src/dataProcessor";
 
 const PAGE_TITLE = "노션 유틸";
 
@@ -43,7 +44,8 @@ export default function NotionUtil() {
     if (value.length > 0) {
       setLoading(true);
 
-      const pages = await getPages(value);
+      //   const pages = await getPages(value);
+      const pages = await getNotionPages(value);
       setOptions(pages);
 
       setLoading(false);
@@ -70,29 +72,29 @@ export default function NotionUtil() {
     try {
       setButtonLoading(true);
 
-      const { properties } = await getPage(selectedPageId);
-      const postUrlId = properties["포스팅 URL"]["id"];
-      const bgmId = properties["🎵 BGM"]["id"];
+      //   const { properties } = await getPage(selectedPageId);
+      //   const postUrlId = properties["포스팅 URL"]["id"];
+      //   const bgmId = properties["🎵 BGM"]["id"];
 
-      const postUrl = await getProperty(selectedPageId, postUrlId);
-      const bgmPageId = await getProperty(selectedPageId, bgmId);
-      setPageInfo(postUrl + " ===== " + bgmPageId);
+      //   const postUrl = await getProperty(selectedPageId, postUrlId);
+      //   const bgmPageId = await getProperty(selectedPageId, bgmId);
+      //   setPageInfo(postUrl + " ===== " + bgmPageId);
 
-      const { properties: prop2 } = await getPage(bgmPageId);
-      const codeId = prop2["코드"]["id"];
-      console.log("codeId", codeId);
-      const bgmCode = await getProperty(bgmPageId, codeId);
+      //   const { properties: prop2 } = await getPage(bgmPageId);
+      //   const codeId = prop2["코드"]["id"];
+      //   console.log("codeId", codeId);
+      //   const bgmCode = await getProperty(bgmPageId, codeId);
 
-      const blogPostTitle = await getBlogTitle(postUrl);
-      const blogPostTagList = await getBlogTagList(postUrl);
+      //   const blogPostTitle = await getBlogTitle(postUrl);
+      //   const blogPostTagList = await getBlogTagList(postUrl);
 
-      let result = `
-      블로그 제목 : ${blogPostTitle}
-      블로그 태그 : ${blogPostTagList}
-      BGM : ${bgmCode}
-      `;
-
-      setPageInfo2(result);
+      //   let result = `
+      //   블로그 제목 : ${blogPostTitle}
+      //   블로그 태그 : ${blogPostTagList}
+      //   BGM : ${bgmCode}
+      //   `;
+      const result = await getDescriptions(selectedPageId);
+      setPageInfo(result);
     } catch (error) {
       console.log(error);
     } finally {
@@ -122,7 +124,7 @@ export default function NotionUtil() {
               options={options}
               loading={loading}
               renderOption={(props, option) => (
-                <Box {...props} key={option.id} id={option.id} type="custom">
+                <Box {...props} key={option.id} id={option.id}>
                   {option.emoji} {option.title}
                 </Box>
               )}

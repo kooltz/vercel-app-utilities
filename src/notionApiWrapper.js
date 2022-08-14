@@ -1,3 +1,4 @@
+import { FirstPageTwoTone } from "@mui/icons-material";
 import axios from "axios";
 
 const PAGE_CACHE_MAP = {};
@@ -37,6 +38,8 @@ export async function getProperty(pageId, propertyId) {
 
     if (results.length > 0) {
       const first = results[0];
+      console.log(first);
+
       if (first.object === "property_item") {
         const value = first[first["type"]];
 
@@ -44,6 +47,8 @@ export async function getProperty(pageId, propertyId) {
           return value.id;
         } else if (first.type === "rich_text") {
           return value.text.content;
+        } else if (first.type === "title") {
+          return data;
         }
       }
     }

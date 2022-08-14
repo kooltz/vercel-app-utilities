@@ -12,7 +12,7 @@ import { LoadingButton } from "@mui/lab";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import CustomAppBar from "/src/components/CustomAppBar";
 import Head from "next/head";
-import { getBlogTagList, getBlogTitle } from "../src/NaverApiWrapper";
+import { getBlogTagList, getBlogTitle } from "/src/naverApiWrapper";
 
 const PAGE_TITLE = "네이버 블로그 유틸";
 const theme = createTheme();
