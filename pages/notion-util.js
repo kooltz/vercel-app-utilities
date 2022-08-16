@@ -12,11 +12,14 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import CustomAppBar from "/src/components/CustomAppBar";
-// import { getPage, getProperty, getPages } from "/src/notionApiWrapper";
-// import { getBlogTagList, getBlogTitle } from "/src/naverApiWrapper";
-import { getNotionPages, getDescriptions } from "/src/dataProcessor";
-
-const PAGE_TITLE = "노션 유틸";
+import {
+  getNotionPages,
+  getNotionPageProps,
+  getBlogInfo,
+  makeSharpTagList,
+} from "/src/dataProcessor";
+import { PAGE_TITLE_CONST } from "/src/const/pageTitleConst";
+import { DESCRIPTION_TEMPLATE } from "/src/const/templateConst";
 
 const theme = createTheme();
 
@@ -71,30 +74,21 @@ export default function NotionUtil() {
 
     try {
       setButtonLoading(true);
+      setPageInfo("");
+      setPageInfo2("");
 
-      //   const { properties } = await getPage(selectedPageId);
-      //   const postUrlId = properties["포스팅 URL"]["id"];
-      //   const bgmId = properties["🎵 BGM"]["id"];
+      const { blogUrl, bgmCode } = await getNotionPageProps(selectedPageId);
+      const { blogTitle, blogTagList } = await getBlogInfo(blogUrl);
+      const sharpTagList = makeSharpTagList(blogTagList);
 
-      //   const postUrl = await getProperty(selectedPageId, postUrlId);
-      //   const bgmPageId = await getProperty(selectedPageId, bgmId);
-      //   setPageInfo(postUrl + " ===== " + bgmPageId);
+      let description = DESCRIPTION_TEMPLATE;
+      description = description.replace("{blog_url}", blogUrl);
+      description = description.replace("{blog_tags}", sharpTagList);
+      description = description.replace("{music_code}", bgmCode);
 
-      //   const { properties: prop2 } = await getPage(bgmPageId);
-      //   const codeId = prop2["코드"]["id"];
-      //   console.log("codeId", codeId);
-      //   const bgmCode = await getProperty(bgmPageId, codeId);
+      setPageInfo(description);
 
-      //   const blogPostTitle = await getBlogTitle(postUrl);
-      //   const blogPostTagList = await getBlogTagList(postUrl);
-
-      //   let result = `
-      //   블로그 제목 : ${blogPostTitle}
-      //   블로그 태그 : ${blogPostTagList}
-      //   BGM : ${bgmCode}
-      //   `;
-      const result = await getDescriptions(selectedPageId);
-      setPageInfo(result);
+      setPageInfo2(blogTagList);
     } catch (error) {
       console.log(error);
     } finally {
@@ -106,7 +100,10 @@ export default function NotionUtil() {
     <React.Fragment>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <CustomAppBar title={PAGE_TITLE} backurl="/"></CustomAppBar>
+        <CustomAppBar
+          title={PAGE_TITLE_CONST.NOTION_UTIL}
+          backurl="/"
+        ></CustomAppBar>
 
         <Container component="main" maxWidth="md" sx={{ mb: 4, mt: 4 }}>
           <Box sx={{ mb: 3 }} textAlign="center">
@@ -182,7 +179,7 @@ export default function NotionUtil() {
               disabled
               sx={{ width: "100%" }}
               size="small"
-              rows={15}
+              rows={5}
               label="페이지 정보2"
               placeholder="페이지 정보2"
               variant="outlined"
