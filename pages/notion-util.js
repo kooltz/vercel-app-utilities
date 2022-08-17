@@ -33,6 +33,11 @@ export default function NotionUtil() {
   function selectedPageCallback(pageId) {
     setSelectedPageId(pageId);
   }
+  function copyClipboard(content) {
+    navigator.clipboard.writeText(content).then(() => {
+      alert("Copied");
+    });
+  }
 
   async function handleGenerate() {
     if (selectedPageId.length === 0) {
@@ -103,7 +108,7 @@ export default function NotionUtil() {
               value={blogPostTitle}
             ></TextField>
           </Box>
-          <Box sx={{ mt: 5 }} textAlign="center">
+          <Box sx={{ mt: 5 }}>
             <TextField
               multiline
               disabled
@@ -115,11 +120,14 @@ export default function NotionUtil() {
               variant="outlined"
               value={description}
             ></TextField>
-            <Fab>
-              <ContentCopyIcon fontSize="small" />
+            <Fab sx={{ position: "absolute" }}>
+              <ContentCopyIcon
+                fontSize="small"
+                onClick={() => copyClipboard(description)}
+              />
             </Fab>
           </Box>
-          <Box sx={{ mt: 5 }} textAlign="center">
+          <Box sx={{ mt: 5 }}>
             <TextField
               multiline
               disabled
@@ -131,6 +139,12 @@ export default function NotionUtil() {
               variant="outlined"
               value={blogPostTagList}
             ></TextField>
+            <Fab sx={{ position: "absolute" }}>
+              <ContentCopyIcon
+                fontSize="small"
+                onClick={() => copyClipboard(blogPostTagList)}
+              />
+            </Fab>
           </Box>
         </Container>
       </ThemeProvider>
