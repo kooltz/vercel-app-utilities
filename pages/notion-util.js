@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   CssBaseline,
@@ -6,14 +6,13 @@ import {
   TextField,
   Box,
   Divider,
-  IconButton,
-  Autocomplete,
-  CircularProgress,
+  Fab,
 } from "@mui/material";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { LoadingButton } from "@mui/lab";
 import CustomAppBar from "/src/components/CustomAppBar";
+import NotionPageSearchBar from "/src/components/NotionPageSearchBar";
 import {
-  getNotionPages,
   getNotionPageProps,
   getBlogInfo,
   makeSharpTagList,
@@ -24,47 +23,15 @@ import { DESCRIPTION_TEMPLATE } from "/src/const/templateConst";
 const theme = createTheme();
 
 export default function NotionUtil() {
-  const [loading, setLoading] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const [pageInfo, setPageInfo] = useState("");
-  const [pageInfo2, setPageInfo2] = useState("");
+  const [description, setDescription] = useState(" ");
+  const [blogPostTagList, setBlogPostTagList] = useState(" ");
+  const [blogPostTitle, setBlogPostTitle] = useState(" ");
 
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState([]);
   const [selectedPageId, setSelectedPageId] = useState("");
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
-
-  async function handleInputChange(e) {
-    const value = e.target.value;
-    setInputValue(value);
-
-    if (value.length > 0) {
-      setLoading(true);
-
-      //   const pages = await getPages(value);
-      const pages = await getNotionPages(value);
-      setOptions(pages);
-
-      setLoading(false);
-    } else {
-      setOptions([]);
-    }
-  }
-
-  function handleOptionChange(event) {
-    const { target } = event;
-    const pageId = target.id;
-
-    if (target.tagName.toLowerCase() === "div") {
-      console.log(pageId);
-      setSelectedPageId(pageId);
-    }
+  function selectedPageCallback(pageId) {
+    setSelectedPageId(pageId);
   }
 
   async function handleGenerate() {
@@ -74,21 +41,22 @@ export default function NotionUtil() {
 
     try {
       setButtonLoading(true);
-      setPageInfo("");
-      setPageInfo2("");
+      setBlogPostTitle(" ");
+      setDescription(" ");
+      setBlogPostTagList(" ");
 
       const { blogUrl, bgmCode } = await getNotionPageProps(selectedPageId);
       const { blogTitle, blogTagList } = await getBlogInfo(blogUrl);
       const sharpTagList = makeSharpTagList(blogTagList);
 
-      let description = DESCRIPTION_TEMPLATE;
-      description = description.replace("{blog_url}", blogUrl);
-      description = description.replace("{blog_tags}", sharpTagList);
-      description = description.replace("{music_code}", bgmCode);
+      let desc = DESCRIPTION_TEMPLATE;
+      desc = desc.replace("{blog_url}", blogUrl);
+      desc = desc.replace("{blog_tags}", sharpTagList);
+      desc = desc.replace("{music_code}", bgmCode);
 
-      setPageInfo(description);
-
-      setPageInfo2(blogTagList);
+      setBlogPostTitle(blogTitle);
+      setDescription(desc);
+      setBlogPostTagList(blogTagList);
     } catch (error) {
       console.log(error);
     } finally {
@@ -107,43 +75,7 @@ export default function NotionUtil() {
 
         <Container component="main" maxWidth="md" sx={{ mb: 4, mt: 4 }}>
           <Box sx={{ mb: 3 }} textAlign="center">
-            <Autocomplete
-              sx={{ width: "70%", display: "inline-block" }}
-              freeSolo
-              open={open}
-              onOpen={() => setOpen(true)}
-              onClose={() => setOpen(false)}
-              onChange={handleOptionChange}
-              isOptionEqualToValue={(option, value) =>
-                option.title === value.title
-              }
-              getOptionLabel={(option) => option.title}
-              options={options}
-              loading={loading}
-              renderOption={(props, option) => (
-                <Box {...props} key={option.id} id={option.id}>
-                  {option.emoji} {option.title}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="페이지 검색"
-                  InputProps={{
-                    ...params.InputProps,
-                    endAdornment: (
-                      <React.Fragment>
-                        {loading ? (
-                          <CircularProgress color="inherit" size={20} />
-                        ) : null}
-                        {params.InputProps.endAdornment}
-                      </React.Fragment>
-                    ),
-                  }}
-                  onChange={handleInputChange}
-                />
-              )}
-            />
+            <NotionPageSearchBar selectedPageCallback={selectedPageCallback} />
             <LoadingButton
               sx={{
                 ml: 3,
@@ -160,17 +92,15 @@ export default function NotionUtil() {
 
           <Divider></Divider>
 
-          <Box sx={{ mt: 5 }} textAlign="center">
+          <Box sx={{ mt: 5 }}>
             <TextField
-              multiline
               disabled
               sx={{ width: "100%" }}
               size="small"
-              rows={15}
-              label="페이지 정보"
-              placeholder="페이지 정보"
+              label="블로그 제목"
+              placeholder="블로그 제목"
               variant="outlined"
-              value={pageInfo}
+              value={blogPostTitle}
             ></TextField>
           </Box>
           <Box sx={{ mt: 5 }} textAlign="center">
@@ -179,11 +109,27 @@ export default function NotionUtil() {
               disabled
               sx={{ width: "100%" }}
               size="small"
-              rows={5}
-              label="페이지 정보2"
-              placeholder="페이지 정보2"
+              rows={18}
+              label="설명"
+              placeholder="설명"
               variant="outlined"
-              value={pageInfo2}
+              value={description}
+            ></TextField>
+            <Fab>
+              <ContentCopyIcon fontSize="small" />
+            </Fab>
+          </Box>
+          <Box sx={{ mt: 5 }} textAlign="center">
+            <TextField
+              multiline
+              disabled
+              sx={{ width: "100%" }}
+              size="small"
+              rows={3}
+              label="블로그 태그"
+              placeholder="블로그 태그"
+              variant="outlined"
+              value={blogPostTagList}
             ></TextField>
           </Box>
         </Container>
