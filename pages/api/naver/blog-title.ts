@@ -1,8 +1,9 @@
-const axios = require("axios");
+import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
 
 // https://blog.naver.com/PostViewBottomTitleListAsync.naver?blogId=s600105&logNo=222811851369
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // blogId, logNo
   const params = req.query;
 
@@ -19,7 +20,7 @@ export default function handler(req, res) {
       }
 
       let title = "";
-      postList.forEach((post) => {
+      postList.forEach((post: any) => {
         const { logNo, filteredEncodedTitle } = post;
 
         if (logNo == params.logNo) {

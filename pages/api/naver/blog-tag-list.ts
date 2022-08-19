@@ -1,8 +1,9 @@
-const axios = require("axios");
+import type { NextApiRequest, NextApiResponse } from "next";
+import axios from "axios";
 
 // https://blog.naver.com/BlogTagListInfo.naver?blogId=s600105&logNoList=222811851369&logType=mylog
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   // blogId, logNoList
   const params = req.query;
 

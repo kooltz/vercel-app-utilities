@@ -1,16 +1,18 @@
-import * as React from "react";
-import { PropTypes } from "prop-types";
 import Head from "next/head";
+import { AppProps } from "next/app";
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
-import { CacheProvider } from "@emotion/react";
+import CssBaseline from "@mui/material/CssBaseline";
+import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "../src/theme";
 import createEmotionCache from "../src/createEmotionCache";
-import "../styles/globals.css";
 
 const clientSideEmotionCache = createEmotionCache();
 
-function KooltzUtilityApp(props) {
+interface KooltzUtilityAppProps extends AppProps {
+  emotionCache?: EmotionCache;
+}
+
+export default function KooltzUtilityApp(props: KooltzUtilityAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
@@ -26,10 +28,3 @@ function KooltzUtilityApp(props) {
     </CacheProvider>
   );
 }
-
-KooltzUtilityApp.propTypes = {
-  Component: PropTypes.elementType.isRequired,
-  emotionCache: PropTypes.object,
-  pageProps: PropTypes.object.isRequired,
-};
-export default KooltzUtilityApp;

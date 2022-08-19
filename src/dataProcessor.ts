@@ -1,12 +1,12 @@
 import { getPage, getProperty, getPages } from "./api/notionHandler";
 import { getBlogTagList, getBlogTitle } from "./api/naverHandler";
 
-export async function getNotionPages(name) {
+export async function getNotionPages(name: string) {
   const pages = await getPages(name);
   return pages;
 }
 
-export async function getNotionPageProps(notionPageId) {
+export async function getNotionPageProps(notionPageId: string) {
   const pageId = notionPageId;
 
   const { properties } = await getPage(pageId);
@@ -27,7 +27,7 @@ export async function getNotionPageProps(notionPageId) {
   return { blogUrl, bgmCode };
 }
 
-export async function getBlogInfo(blogUrl) {
+export async function getBlogInfo(blogUrl: string) {
   const blogTitle = await getBlogTitle(blogUrl);
   const blogTagList = await getBlogTagList(blogUrl);
   // console.log("blogTitle : ", blogTitle);
@@ -36,8 +36,8 @@ export async function getBlogInfo(blogUrl) {
   return { blogTitle, blogTagList };
 }
 
-export function makeSharpTagList(tagList) {
-  let taggedList = [];
+export function makeSharpTagList(tagList: Array<string>) {
+  let taggedList: Array<string> = [];
   tagList.forEach((tag) => {
     let tagged = "#" + tag.trim();
     taggedList.push(tagged);

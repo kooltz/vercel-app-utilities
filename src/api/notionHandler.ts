@@ -1,9 +1,9 @@
-import { FirstPageTwoTone } from "@mui/icons-material";
+import { iconButtonClasses } from "@mui/material";
 import axios from "axios";
 
-const PAGE_CACHE_MAP = {};
+const PAGE_CACHE_MAP: any = {};
 
-export async function getPage(pageId) {
+export async function getPage(pageId: string) {
   const response = await axios.get("/api/notion/pages", {
     params: {
       page_id: pageId,
@@ -17,7 +17,7 @@ export async function getPage(pageId) {
   return response.data;
 }
 
-export async function getProperty(pageId, propertyId) {
+export async function getProperty(pageId: string, propertyId: string) {
   const response = await axios.get("/api/notion/properties", {
     params: {
       page_id: pageId,
@@ -30,7 +30,6 @@ export async function getProperty(pageId, propertyId) {
   }
 
   const { data } = response;
-  console.log("property", data);
   if (data.object === "property_item") {
     return data[data["type"]];
   } else if (data.object === "list") {
@@ -38,7 +37,6 @@ export async function getProperty(pageId, propertyId) {
 
     if (results.length > 0) {
       const first = results[0];
-      console.log(first);
 
       if (first.object === "property_item") {
         const value = first[first["type"]];
@@ -56,7 +54,7 @@ export async function getProperty(pageId, propertyId) {
   return "";
 }
 
-export async function getPages(name) {
+export async function getPages(name: string) {
   const response = await axios.get("/api/notion/page-title", {
     params: {
       title: name,
@@ -65,11 +63,9 @@ export async function getPages(name) {
 
   const queryResults = response.data.results || [];
 
-  const pageQueries = queryResults.map((result) => {
-    const {
-      id,
-      icon: { emoji },
-    } = result;
+  const pageQueries = queryResults.map((result: any) => {
+    const { id, icon } = result;
+    const emoji = icon && icon.emoji ? icon.emoji : "";
 
     if (PAGE_CACHE_MAP[id]) {
       return new Promise((resolve) => {

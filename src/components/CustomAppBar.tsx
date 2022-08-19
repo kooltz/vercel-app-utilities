@@ -1,7 +1,12 @@
 import { AppBar, IconButton, Link, Toolbar, Typography } from "@mui/material";
 import ArrowBackIosTwoToneIcon from "@mui/icons-material/ArrowBackIosTwoTone";
 
-export default function CustomAppBar(props) {
+export interface CustomAppBarProps {
+  backurl?: string;
+  title?: string;
+}
+
+export default function CustomAppBar(props: CustomAppBarProps) {
   return (
     <AppBar
       position="absolute"

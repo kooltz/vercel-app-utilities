@@ -1,3 +1,5 @@
+import * as React from "react";
+import type { NextPage } from "next";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
   CssBaseline,
@@ -7,11 +9,13 @@ import {
   CardActions,
   Button,
 } from "@mui/material";
-import CustomAppBar from "/src/components/CustomAppBar";
+import CustomAppBar, {
+  CustomAppBarProps,
+} from "../src/components/CustomAppBar";
 
 const theme = createTheme();
 
-function CardButton(props) {
+function CardButton(props: any) {
   return (
     <Box sx={{ minWidth: 150, mt: 2, mb: 2 }}>
       <Card variant="outlined">
@@ -25,7 +29,7 @@ function CardButton(props) {
   );
 }
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -36,4 +40,6 @@ export default function Home() {
       </Container>
     </ThemeProvider>
   );
-}
+};
+
+export default Home;
