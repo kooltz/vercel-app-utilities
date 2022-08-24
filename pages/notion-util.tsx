@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NextPage } from "next";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import {
   CssBaseline,
   Container,
@@ -11,10 +11,11 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
+import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { LoadingButton } from "@mui/lab";
 import CustomAppBar from "../src/components/CustomAppBar";
 import NotionPageSearchBar from "../src/components/NotionPageSearchBar";
+import darkTheme from "../src/theme";
 import {
   getNotionPageProps,
   getBlogInfo,
@@ -23,14 +24,17 @@ import {
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
 
-const theme = createTheme();
-
 const NotionUtil: NextPage = () => {
   const [description, setDescription] = useState(" ");
   const [blogPostTagList, setBlogPostTagList] = useState(" ");
   const [blogPostTitle, setBlogPostTitle] = useState(" ");
 
+  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [open, setOpen] = useState(false);
+
+  function handleSnackBarClose() {
+    setSnackBarOpen(false);
+  }
 
   async function selectedPageCallback(pageId: string) {
     if (pageId.length === 0) {
@@ -65,7 +69,7 @@ const NotionUtil: NextPage = () => {
     navigator.clipboard
       .writeText(content)
       .then(() => {
-        alert("Copied");
+        setSnackBarOpen(true);
       })
       .catch((e) => {
         console.log(e);
@@ -74,7 +78,7 @@ const NotionUtil: NextPage = () => {
 
   return (
     <React.Fragment>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <CustomAppBar
           title={PAGE_TITLE_CONST.NOTION_UTIL}
@@ -143,6 +147,13 @@ const NotionUtil: NextPage = () => {
               />
             </Fab>
           </Box>
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            open={snackBarOpen}
+            onClose={handleSnackBarClose}
+            autoHideDuration={1500}
+            message="클립보드에 복사했습니다."
+          />
         </Container>
       </ThemeProvider>
     </React.Fragment>

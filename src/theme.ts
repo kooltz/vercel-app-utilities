@@ -1,18 +1,24 @@
 import { createTheme } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
+// import { red } from "@mui/material/colors";
 
-const theme = createTheme({
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: "#556cd6",
+//     },
+//     secondary: {
+//       main: "#19857b",
+//     },
+//     error: {
+//       main: red.A400,
+//     },
+//   },
+// });
+
+const darkTheme = createTheme({
   palette: {
-    primary: {
-      main: "#556cd6",
-    },
-    secondary: {
-      main: "#19857b",
-    },
-    error: {
-      main: red.A400,
-    },
+    mode: "dark",
   },
 });
 
-export default theme;
+export default darkTheme;
