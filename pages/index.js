@@ -1,12 +1,11 @@
 import * as React from "react";
-import type { NextPage } from "next";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, Container, Box } from "@mui/material";
 import CustomAppBar from "../src/components/CustomAppBar";
 import CardButton from "../src/components/CardButton";
 import darkTheme from "../src/theme";
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />

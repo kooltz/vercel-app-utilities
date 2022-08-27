@@ -8,11 +8,7 @@ import createEmotionCache from "../src/createEmotionCache";
 
 const clientSideEmotionCache = createEmotionCache();
 
-interface KooltzUtilityAppProps extends AppProps {
-  emotionCache?: EmotionCache;
-}
-
-export default function KooltzUtilityApp(props: KooltzUtilityAppProps) {
+export default function KooltzUtilityApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (

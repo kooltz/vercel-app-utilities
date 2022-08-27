@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Autocomplete, Box, CircularProgress, TextField } from "@mui/material";
 import { getNotionPages } from "../dataProcessor";
 
-export default function NotionPageAutoComplete(props: any) {
+export default function NotionPageAutoComplete(props) {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
@@ -15,13 +15,13 @@ export default function NotionPageAutoComplete(props: any) {
     }
   }, [open]);
 
-  async function handleInputChange(e: any) {
+  async function handleInputChange(e) {
     const value = e.target.value;
 
     if (value.length > 0) {
       setLoading(true);
 
-      const pages: any = await getNotionPages(value);
+      const pages = await getNotionPages(value);
       setOptions(pages);
 
       setLoading(false);
@@ -30,7 +30,7 @@ export default function NotionPageAutoComplete(props: any) {
     }
   }
 
-  function handleOptionChange(event: any) {
+  function handleOptionChange(event) {
     const { target } = event;
     const pageId = target.id;
 
@@ -47,13 +47,11 @@ export default function NotionPageAutoComplete(props: any) {
       onOpen={() => setOpen(true)}
       onClose={() => setOpen(false)}
       onChange={handleOptionChange}
-      isOptionEqualToValue={(option: any, value) =>
-        option.title === value.title
-      }
+      isOptionEqualToValue={(option, value) => option.title === value.title}
       getOptionLabel={(option) => option.title}
       options={options}
       loading={loading}
-      renderOption={(props: any, option) => (
+      renderOption={(props, option) => (
         <Box {...props} key={option.id} id={option.id}>
           {option.emoji} {option.title}
         </Box>

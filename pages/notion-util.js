@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { NextPage } from "next";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   CssBaseline,
@@ -24,7 +23,7 @@ import {
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
 
-const NotionUtil: NextPage = () => {
+const NotionUtil = () => {
   const [description, setDescription] = useState(" ");
   const [blogPostTagList, setBlogPostTagList] = useState(" ");
   const [blogPostTitle, setBlogPostTitle] = useState(" ");
@@ -36,7 +35,7 @@ const NotionUtil: NextPage = () => {
     setSnackBarOpen(false);
   }
 
-  async function selectedPageCallback(pageId: string) {
+  async function selectedPageCallback(pageId) {
     if (pageId.length === 0) {
       return;
     }
@@ -65,7 +64,8 @@ const NotionUtil: NextPage = () => {
       setOpen(false);
     }
   }
-  function copyClipboard(content: string) {
+
+  function copyClipboard(content) {
     navigator.clipboard
       .writeText(content)
       .then(() => {

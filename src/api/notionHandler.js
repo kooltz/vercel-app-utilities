@@ -1,9 +1,8 @@
-import { iconButtonClasses } from "@mui/material";
 import axios from "axios";
 
-const PAGE_CACHE_MAP: any = {};
+const PAGE_CACHE_MAP = {};
 
-export async function getPage(pageId: string) {
+export async function getPage(pageId) {
   const response = await axios.get("/api/notion/pages", {
     params: {
       page_id: pageId,
@@ -17,7 +16,7 @@ export async function getPage(pageId: string) {
   return response.data;
 }
 
-export async function getProperty(pageId: string, propertyId: string) {
+export async function getProperty(pageId, propertyId) {
   const response = await axios.get("/api/notion/properties", {
     params: {
       page_id: pageId,
@@ -54,7 +53,7 @@ export async function getProperty(pageId: string, propertyId: string) {
   return "";
 }
 
-export async function getPages(name: string) {
+export async function getPages(name) {
   const response = await axios.get("/api/notion/page-title", {
     params: {
       title: name,
@@ -63,7 +62,7 @@ export async function getPages(name: string) {
 
   const queryResults = response.data.results || [];
 
-  const pageQueries = queryResults.map((result: any) => {
+  const pageQueries = queryResults.map((result) => {
     const { id, icon } = result;
     const emoji = icon && icon.emoji ? icon.emoji : "";
 

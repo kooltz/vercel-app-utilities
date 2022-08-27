@@ -1,8 +1,8 @@
 import axios from "axios";
 import url from "url";
 
-function parseUrl(blogUrl: string) {
-  const u: any = url.parse(blogUrl);
+function parseUrl(blogUrl) {
+  const u = url.parse(blogUrl);
 
   const path = u.path[0] === "/" ? u.path.substring(1, u.path.length) : u.path;
   const paths = path.split("/");
@@ -21,7 +21,7 @@ function parseUrl(blogUrl: string) {
   };
 }
 
-export async function getBlogTagList(blogUrl: string) {
+export async function getBlogTagList(blogUrl) {
   const { blogId, postId } = parseUrl(blogUrl);
   const { data } = await axios.get("/api/naver/blog-tag-list", {
     params: {
@@ -32,7 +32,7 @@ export async function getBlogTagList(blogUrl: string) {
   return decodeURIComponent(data).split(",");
 }
 
-export async function getBlogTitle(blogUrl: string) {
+export async function getBlogTitle(blogUrl) {
   const { blogId, postId } = parseUrl(blogUrl);
   const { data } = await axios.get("/api/naver/blog-title", {
     params: {

@@ -1,16 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { Client } from "@notionhq/client";
 
 const notion = new Client({
   auth: process.env.NOTION_KEY,
 });
-const DATABASE_ID: any = process.env.NOTION_POSHOOT_DATABASE_ID;
+const DATABASE_ID = process.env.NOTION_POSHOOT_DATABASE_ID;
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { title }: any = req.query;
+export default async function handler(req, res) {
+  const { title } = req.query;
 
   try {
     const response = await notion.databases.query({

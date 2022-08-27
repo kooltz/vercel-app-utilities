@@ -1,11 +1,6 @@
 import { Card, CardActions, Button } from "@mui/material";
 
-export interface CardButtonProps {
-  url?: string;
-  title?: string;
-}
-
-export default function CardButton(props: CardButtonProps) {
+export default function CardButton(props) {
   return (
     <Card variant="outlined">
       <CardActions>
