@@ -12,14 +12,10 @@ import {
 } from "@mui/material";
 import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import CustomAppBar from "../src/components/CustomAppBar";
-import NotionPageSearchBar from "../src/components/NotionPageSearchBar";
+import { CustomAppBar, NotionPageSearchBar } from "../src/components";
 import darkTheme from "../src/theme";
-import {
-  getNotionPageProps,
-  getBlogInfo,
-  makeSharpTagList,
-} from "../src/dataProcessor";
+import { getNotionPageProps, makeSharpTagList } from "../src/dataProcessor";
+import { getBlogInfo } from "../src/wrapper/naverHandler";
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
 
@@ -47,8 +43,8 @@ const NotionUtil = () => {
       setBlogPostTagList(" ");
 
       const { blogUrl, bgmCode } = await getNotionPageProps(pageId);
-      const { blogTitle, blogTagList } = await getBlogInfo(blogUrl);
-      const sharpTagList = makeSharpTagList(blogTagList);
+      const { blogTitle, blogTags } = await getBlogInfo(blogUrl);
+      const sharpTagList = makeSharpTagList(blogTags);
 
       let desc = DESCRIPTION_TEMPLATE;
       desc = desc.replace("{blog_url}", blogUrl);
@@ -57,7 +53,7 @@ const NotionUtil = () => {
 
       setBlogPostTitle(blogTitle);
       setDescription(desc);
-      setBlogPostTagList(blogTagList.join(","));
+      setBlogPostTagList(blogTags.join(","));
     } catch (error) {
       console.log(error);
     } finally {

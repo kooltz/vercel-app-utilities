@@ -1,5 +1,4 @@
-import { getPage, getProperty, getPages } from "./api/notionHandler";
-import { getBlogTagList, getBlogTitle } from "./api/naverHandler";
+import { getPage, getProperty, getPages } from "./wrapper/notionHandler";
 
 export async function getNotionPages(name) {
   const pages = await getPages(name);
@@ -25,15 +24,6 @@ export async function getNotionPageProps(notionPageId) {
   // console.log("bgmCode : ", bgmCode);
 
   return { blogUrl, bgmCode };
-}
-
-export async function getBlogInfo(blogUrl) {
-  const blogTitle = await getBlogTitle(blogUrl);
-  const blogTagList = await getBlogTagList(blogUrl);
-  // console.log("blogTitle : ", blogTitle);
-  // console.log("blogTagList : ", blogTagList);
-
-  return { blogTitle, blogTagList };
 }
 
 export function makeSharpTagList(tagList) {
