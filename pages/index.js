@@ -9,11 +9,14 @@ const Home = () => {
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
-      <CustomAppBar title="Kooltz Utility"></CustomAppBar>
+      <CustomAppBar title="메뉴"></CustomAppBar>
 
       <Container component="main" maxWidth="sm" sx={{ mb: 4, mt: 4 }}>
         <Box sx={{ minWidth: 150, mt: 2, mb: 2 }}>
-          <CardButton url="./notion-util" title="노션 유틸"></CardButton>
+          <CardButton
+            url="./youtube"
+            title="유튜브 동영상 세부정보"
+          ></CardButton>
         </Box>
       </Container>
     </ThemeProvider>

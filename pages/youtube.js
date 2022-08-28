@@ -10,7 +10,7 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import Snackbar, { SnackbarOrigin } from "@mui/material/Snackbar";
+import Snackbar from "@mui/material/Snackbar";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { CustomAppBar, NotionPageSearchBar } from "../src/components";
 import darkTheme from "../src/theme";
@@ -77,7 +77,7 @@ const NotionUtil = () => {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <CustomAppBar
-          title={PAGE_TITLE_CONST.NOTION_UTIL}
+          title={PAGE_TITLE_CONST.YOUTUBE_UTIL}
           backurl="/"
         ></CustomAppBar>
         <Backdrop
@@ -87,56 +87,79 @@ const NotionUtil = () => {
           <CircularProgress color="inherit" />
         </Backdrop>
 
-        <Container component="main" maxWidth="md" sx={{ mb: 4, mt: 4 }}>
+        <Container component="main" maxWidth="md" sx={{ mb: 3, mt: 3 }}>
           <Box sx={{ mb: 3 }} textAlign="center">
             <NotionPageSearchBar selectedPageCallback={selectedPageCallback} />
           </Box>
 
           <Divider></Divider>
 
-          <Box sx={{ mt: 5 }}>
+          <Box sx={{ mt: 3, fontSize: "8pt" }} textAlign="center">
             <TextField
               disabled
-              sx={{ width: "100%" }}
+              sx={{
+                width: "90%",
+              }}
+              inputProps={{ style: { fontSize: 14 } }}
               size="small"
               label="블로그 제목"
               placeholder="블로그 제목"
               variant="outlined"
               value={blogPostTitle}
             ></TextField>
+            <Fab
+              sx={{ position: "absolute", ml: 1 }}
+              color="primary"
+              size="small"
+            >
+              <ContentCopyIcon
+                fontSize="small"
+                onClick={() => copyClipboard(blogPostTitle)}
+              />
+            </Fab>
           </Box>
-          <Box sx={{ mt: 5 }}>
+          <Box sx={{ mt: 5, textAlign: "center" }}>
             <TextField
               multiline
               disabled
-              sx={{ width: "100%" }}
+              sx={{ width: "90%" }}
+              inputProps={{ style: { fontSize: 14, lineHeight: 1.4 } }}
               size="small"
-              rows={18}
+              //rows={15}
               label="설명"
               placeholder="설명"
               variant="outlined"
               value={description}
             ></TextField>
-            <Fab sx={{ position: "absolute" }} color="primary" size="small">
+            <Fab
+              sx={{ position: "absolute", ml: 1 }}
+              color="primary"
+              size="small"
+            >
               <ContentCopyIcon
                 fontSize="small"
                 onClick={() => copyClipboard(description)}
               />
             </Fab>
           </Box>
-          <Box sx={{ mt: 5 }}>
+          <Box sx={{ mt: 5, textAlign: "center" }}>
             <TextField
               multiline
               disabled
-              sx={{ width: "100%" }}
+              sx={{ width: "90%" }}
+              inputProps={{ style: { fontSize: 14, lineHeight: 1.4 } }}
               size="small"
-              rows={3}
+              //rows={3}
               label="블로그 태그"
               placeholder="블로그 태그"
               variant="outlined"
               value={blogPostTagList}
             ></TextField>
-            <Fab sx={{ position: "absolute" }} color="primary" size="small">
+            <Fab
+              sx={{ position: "absolute", ml: 1 }}
+              color="primary"
+              size="small"
+            >
               <ContentCopyIcon
                 fontSize="small"
                 onClick={() => copyClipboard(blogPostTagList)}

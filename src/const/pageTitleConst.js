@@ -1,3 +1,3 @@
 export const PAGE_TITLE_CONST = {
-  NOTION_UTIL: "노션 유틸",
+  YOUTUBE_UTIL: "유튜브 동영상 세부정보 ",
 };

@@ -60,6 +60,7 @@ export default function NotionPageAutoComplete(props) {
         <TextField
           {...params}
           label="페이지 검색"
+          size="small"
           InputProps={{
             ...params.InputProps,
             endAdornment: (
