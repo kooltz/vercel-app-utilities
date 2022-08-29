@@ -19,7 +19,7 @@ export default function KooltzUtilityApp(props) {
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />;
+        <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
   );
