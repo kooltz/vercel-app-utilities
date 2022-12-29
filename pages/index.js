@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline, Container, Box } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import CustomAppBar from "../src/components/CustomAppBar";
 import CardButton from "../src/components/CardButton";
 import darkTheme from "../src/theme";
@@ -24,13 +24,20 @@ const Home = () => {
       <CssBaseline />
       <CustomAppBar title="메뉴"></CustomAppBar>
 
-      <Container component="main" maxWidth="sm" sx={{ mb: 4, mt: 4 }}>
+      <main
+        style={{
+          maxWidth: "600px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          boxSizing: "border-box",
+        }}
+      >
         {allMenus.map((menu) => (
-          <Box key={menu.id} sx={{ minWidth: 150, mt: 2, mb: 2 }}>
+          <>
             <CardButton url={menu.url} title={menu.title}></CardButton>
-          </Box>
+          </>
         ))}
-      </Container>
+      </main>
     </ThemeProvider>
   );
 };

@@ -1,7 +1,7 @@
-import { AppBar, IconButton, Link, Toolbar, Typography } from "@mui/material";
-import ArrowBackIosTwoToneIcon from "@mui/icons-material/ArrowBackIosTwoTone";
+import React from "react";
+import { AppBar } from "@mui/material";
 
-export default function CustomAppBar(props) {
+const CustomAppBar = (props) => {
   return (
     <AppBar
       position="absolute"
@@ -12,19 +12,51 @@ export default function CustomAppBar(props) {
         borderBottom: (t) => `1px solid ${t.palette.divider}`,
       }}
     >
-      <Toolbar>
+      <div
+        style={{
+          minHeight: "64px",
+          paddingLeft: "24px",
+          paddingRight: "24px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         {props.backurl ? (
-          <IconButton disableRipple={true} href={props.backurl}>
-            <ArrowBackIosTwoToneIcon sx={{ mr: 2 }} />
-          </IconButton>
+          <h6
+            style={{
+              margin: "0px",
+              marginRight: "15px",
+              fontWeight: "500px",
+              fontSize: "1.25rem",
+              lineHeight: "1.6",
+            }}
+          >
+            <a
+              href={props.backurl}
+              style={{
+                textDecorationLine: "none",
+                color: "white",
+              }}
+            >
+              &lt;
+            </a>
+          </h6>
         ) : (
           <></>
         )}
-        <div></div>
-        <Typography variant="h6" color="inherit" noWrap>
+        <h6
+          style={{
+            margin: "0px",
+            fontWeight: "500px",
+            fontSize: "1.25rem",
+            lineHeight: "1.6",
+          }}
+        >
           {props.title}
-        </Typography>
-      </Toolbar>
+        </h6>
+      </div>
     </AppBar>
   );
-}
+};
+
+export default CustomAppBar;

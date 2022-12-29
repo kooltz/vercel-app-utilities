@@ -1,13 +1,26 @@
-import { Card, CardActions, Button } from "@mui/material";
+import React from "react";
 
-export default function CardButton(props) {
+const CardButton = (props) => {
   return (
-    <Card variant="outlined">
-      <CardActions>
-        <Button size="medium" href={props.url}>
+    <div
+      style={{
+        border: "1px solid white",
+        borderRadius: "5px",
+        margin: "20px 10px",
+      }}
+    >
+      <p style={{ margin: "10px" }}>
+        <a
+          href={props.url}
+          style={{
+            textDecorationLine: "none",
+            color: "white",
+          }}
+        >
           {props.title}
-        </Button>
-      </CardActions>
-    </Card>
+        </a>
+      </p>
+    </div>
   );
-}
+};
+export default CardButton;
