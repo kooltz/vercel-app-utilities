@@ -1,9 +1,5 @@
 import * as React from "react";
-import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
-import CustomAppBar from "../src/components/CustomAppBar";
-import CardButton from "../src/components/CardButton";
-import darkTheme from "../src/theme";
+import { CustomAppBar, CardButton } from "../src/components";
 
 const allMenus = [
   {
@@ -20,25 +16,17 @@ const allMenus = [
 
 const Home = () => {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
+    <React.Fragment>
       <CustomAppBar title="메뉴"></CustomAppBar>
 
-      <main
-        style={{
-          maxWidth: "600px",
-          marginLeft: "auto",
-          marginRight: "auto",
-          boxSizing: "border-box",
-        }}
-      >
+      <main>
         {allMenus.map((menu) => (
           <>
             <CardButton url={menu.url} title={menu.title}></CardButton>
           </>
         ))}
       </main>
-    </ThemeProvider>
+    </React.Fragment>
   );
 };
 

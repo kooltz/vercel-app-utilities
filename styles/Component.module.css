@@ -1,0 +1,61 @@
+/*
+ AppBar
+ */
+.appBar {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  border-bottom: 2px solid rgba(240, 240, 240, 0.88);
+}
+
+.appBar .content {
+  min-height: 64px;
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.appBar h6 {
+  margin: 0px;
+  font-weight: 500px;
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.appBar a {
+  color: black;
+}
+
+.appBar .backUrl {
+  margin-right: 15px;
+}
+
+/*
+ CardButton
+ */
+.cardButton {
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 20px 10px;
+}
+
+.cardButton p {
+  margin: 15px 20px;
+}
+
+.cardButton a {
+  color: black;
+}
+
+/*
+ CopyButton
+ */
+.copyButton {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  margin: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}

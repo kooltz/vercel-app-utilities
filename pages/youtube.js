@@ -3,33 +3,24 @@ import { ThemeProvider } from "@mui/material/styles";
 import {
   CssBaseline,
   Container,
-  TextField,
   Box,
-  Divider,
-  Fab,
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { CustomAppBar, NotionPageSearchBar } from "../src/components";
 import darkTheme from "../src/theme";
 import { getNotionPageProps, makeSharpTagList } from "../src/dataProcessor";
 import { getBlogInfo } from "../src/wrapper/naverHandler";
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
+import componentStyles from "../styles/Component.module.css";
 
 const NotionUtil = () => {
   const [description, setDescription] = useState(" ");
   const [blogPostTagList, setBlogPostTagList] = useState(" ");
   const [blogPostTitle, setBlogPostTitle] = useState(" ");
 
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
   const [open, setOpen] = useState(false);
-
-  function handleSnackBarClose() {
-    setSnackBarOpen(false);
-  }
 
   async function selectedPageCallback(pageId) {
     if (pageId.length === 0) {
@@ -65,7 +56,7 @@ const NotionUtil = () => {
     navigator.clipboard
       .writeText(content)
       .then(() => {
-        setSnackBarOpen(true);
+        alert("클립보드에 복사했습니다.");
       })
       .catch((e) => {
         console.log(e);
@@ -92,87 +83,81 @@ const NotionUtil = () => {
             <NotionPageSearchBar selectedPageCallback={selectedPageCallback} />
           </Box>
 
-          <Divider></Divider>
-
-          <Box sx={{ mt: 3, fontSize: "8pt" }} textAlign="center">
-            <TextField
+          <hr></hr>
+          <div style={{ margin: "20px 0px", textAlign: "center" }}>
+            <input
+              type="text"
               disabled
-              sx={{
-                width: "90%",
-              }}
-              inputProps={{ style: { fontSize: 14 } }}
-              size="small"
-              label="블로그 제목"
-              placeholder="블로그 제목"
-              variant="outlined"
               value={blogPostTitle}
-            ></TextField>
-            <Fab
-              sx={{ position: "absolute", ml: 1 }}
-              color="primary"
-              size="small"
+              style={{
+                width: "90%",
+                height: "40px",
+                fontSize: "14px",
+                padding: "5px 10px",
+                border: "1px solid blue",
+                borderRadius: "3px",
+                backgroundColor: "lightgray",
+                placeholder: "블로그 제목",
+              }}
+            ></input>
+            <button
+              type="button"
+              className={componentStyles.copyButton}
+              onClick={() => copyClipboard(blogPostTitle)}
             >
-              <ContentCopyIcon
-                fontSize="small"
-                onClick={() => copyClipboard(blogPostTitle)}
-              />
-            </Fab>
-          </Box>
-          <Box sx={{ mt: 5, textAlign: "center" }}>
-            <TextField
-              multiline
+              복사
+            </button>
+          </div>
+          <div style={{ margin: "20px 0px", textAlign: "center" }}>
+            <textarea
               disabled
-              sx={{ width: "90%" }}
-              inputProps={{ style: { fontSize: 14, lineHeight: 1.4 } }}
-              size="small"
-              //rows={15}
-              label="설명"
-              placeholder="설명"
-              variant="outlined"
               value={description}
-            ></TextField>
-            <Fab
-              sx={{ position: "absolute", ml: 1 }}
-              color="primary"
-              size="small"
+              style={{
+                width: "90%",
+                height: "360px",
+                fontSize: "14px",
+                border: "1px solid blue",
+                borderRadius: "3px",
+                backgroundColor: "lightgray",
+                placeholder: "설명",
+                padding: "5px 10px",
+                boxSizing: "border-box",
+                lineHeight: "1.4",
+              }}
+            ></textarea>
+            <button
+              type="button"
+              className={componentStyles.copyButton}
+              onClick={() => copyClipboard(description)}
             >
-              <ContentCopyIcon
-                fontSize="small"
-                onClick={() => copyClipboard(description)}
-              />
-            </Fab>
-          </Box>
-          <Box sx={{ mt: 5, textAlign: "center" }}>
-            <TextField
-              multiline
+              복사
+            </button>
+          </div>
+          <div style={{ margin: "20px 0px", textAlign: "center" }}>
+            <textarea
               disabled
-              sx={{ width: "90%" }}
-              inputProps={{ style: { fontSize: 14, lineHeight: 1.4 } }}
-              size="small"
-              //rows={3}
-              label="블로그 태그"
-              placeholder="블로그 태그"
-              variant="outlined"
               value={blogPostTagList}
-            ></TextField>
-            <Fab
-              sx={{ position: "absolute", ml: 1 }}
-              color="primary"
-              size="small"
+              style={{
+                width: "90%",
+                height: "80px",
+                fontSize: "14px",
+                border: "1px solid blue",
+                borderRadius: "3px",
+                backgroundColor: "lightgray",
+                placeholder: "블로그 태그",
+                padding: "5px 10px",
+                boxSizing: "border-box",
+                lineHeight: "1.4",
+              }}
+            ></textarea>
+            <button
+              type="button"
+              className={componentStyles.copyButton}
+              onClick={() => copyClipboard(blogPostTagList)}
             >
-              <ContentCopyIcon
-                fontSize="small"
-                onClick={() => copyClipboard(blogPostTagList)}
-              />
-            </Fab>
-          </Box>
-          <Snackbar
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-            open={snackBarOpen}
-            onClose={handleSnackBarClose}
-            autoHideDuration={1500}
-            message="클립보드에 복사했습니다."
-          />
+              복사
+            </button>
+          </div>
         </Container>
       </ThemeProvider>
     </React.Fragment>
