@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { ThemeProvider } from "@mui/material/styles";
 import {
-  CssBaseline,
-  Container,
-  Box,
-  Backdrop,
-  CircularProgress,
-} from "@mui/material";
-import { CustomAppBar, NotionPageSearchBar } from "../src/components";
-import darkTheme from "../src/theme";
+  CopyButton,
+  CustomAppBar,
+  NotionPageSearchBar,
+  MultiLineText,
+  CircularProgress2,
+} from "../src/components";
 import { getNotionPageProps, makeSharpTagList } from "../src/dataProcessor";
 import { getBlogInfo } from "../src/wrapper/naverHandler";
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
-import componentStyles from "../styles/Component.module.css";
 
 const NotionUtil = () => {
   const [description, setDescription] = useState(" ");
@@ -52,114 +48,51 @@ const NotionUtil = () => {
     }
   }
 
-  function copyClipboard(content) {
-    navigator.clipboard
-      .writeText(content)
-      .then(() => {
-        alert("클립보드에 복사했습니다.");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
   return (
     <React.Fragment>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <CustomAppBar
-          title={PAGE_TITLE_CONST.YOUTUBE_UTIL}
-          backurl="/"
-        ></CustomAppBar>
-        <Backdrop
-          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={open}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
+      <CustomAppBar
+        title={PAGE_TITLE_CONST.YOUTUBE_UTIL}
+        backurl="/"
+      ></CustomAppBar>
+      <CircularProgress2 open={open} />
 
-        <Container component="main" maxWidth="md" sx={{ mb: 3, mt: 3 }}>
-          <Box sx={{ mb: 3 }} textAlign="center">
-            <NotionPageSearchBar selectedPageCallback={selectedPageCallback} />
-          </Box>
+      <main
+        style={{
+          maxWidth: "600px",
+          padding: "0px 24px",
+          margin: "24px auto",
+        }}
+      >
+        <div style={{ textAlign: "center", marginBottom: "24px" }}>
+          <NotionPageSearchBar selectedPageCallback={selectedPageCallback} />
+        </div>
 
-          <hr></hr>
-          <div style={{ margin: "20px 0px", textAlign: "center" }}>
-            <input
-              type="text"
-              disabled
-              value={blogPostTitle}
-              style={{
-                width: "90%",
-                height: "40px",
-                fontSize: "14px",
-                padding: "5px 10px",
-                border: "1px solid blue",
-                borderRadius: "3px",
-                backgroundColor: "lightgray",
-                placeholder: "블로그 제목",
-              }}
-            ></input>
-            <button
-              type="button"
-              className={componentStyles.copyButton}
-              onClick={() => copyClipboard(blogPostTitle)}
-            >
-              복사
-            </button>
-          </div>
-          <div style={{ margin: "20px 0px", textAlign: "center" }}>
-            <textarea
-              disabled
-              value={description}
-              style={{
-                width: "90%",
-                height: "360px",
-                fontSize: "14px",
-                border: "1px solid blue",
-                borderRadius: "3px",
-                backgroundColor: "lightgray",
-                placeholder: "설명",
-                padding: "5px 10px",
-                boxSizing: "border-box",
-                lineHeight: "1.4",
-              }}
-            ></textarea>
-            <button
-              type="button"
-              className={componentStyles.copyButton}
-              onClick={() => copyClipboard(description)}
-            >
-              복사
-            </button>
-          </div>
-          <div style={{ margin: "20px 0px", textAlign: "center" }}>
-            <textarea
-              disabled
-              value={blogPostTagList}
-              style={{
-                width: "90%",
-                height: "80px",
-                fontSize: "14px",
-                border: "1px solid blue",
-                borderRadius: "3px",
-                backgroundColor: "lightgray",
-                placeholder: "블로그 태그",
-                padding: "5px 10px",
-                boxSizing: "border-box",
-                lineHeight: "1.4",
-              }}
-            ></textarea>
-            <button
-              type="button"
-              className={componentStyles.copyButton}
-              onClick={() => copyClipboard(blogPostTagList)}
-            >
-              복사
-            </button>
-          </div>
-        </Container>
-      </ThemeProvider>
+        <hr></hr>
+        <div style={{ margin: "20px 0px", textAlign: "center" }}>
+          <MultiLineText
+            value={blogPostTitle}
+            placeholder="블로그 제목"
+            height="50px"
+          />
+          <CopyButton content={blogPostTitle} />
+        </div>
+        <div style={{ margin: "20px 0px", textAlign: "center" }}>
+          <MultiLineText
+            value={description}
+            placeholder="설명"
+            height="360px"
+          />
+          <CopyButton content={description} />
+        </div>
+        <div style={{ margin: "20px 0px", textAlign: "center" }}>
+          <MultiLineText
+            value={blogPostTagList}
+            placeholder="블로그 태그"
+            height="80px"
+          />
+          <CopyButton content={blogPostTagList} />
+        </div>
+      </main>
     </React.Fragment>
   );
 };

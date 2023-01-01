@@ -21,9 +21,7 @@ const Home = () => {
 
       <main>
         {allMenus.map((menu) => (
-          <>
-            <CardButton url={menu.url} title={menu.title}></CardButton>
-          </>
+          <CardButton url={menu.url} title={menu.title} key={menu.id} />
         ))}
       </main>
     </React.Fragment>
