@@ -2,19 +2,24 @@ import React, { useState } from "react";
 import {
   CopyButton,
   CustomAppBar,
-  NotionPageSearchBar,
   MultiLineText,
   CircularProgress2,
 } from "../src/components";
-import { getNotionPageProps, makeSharpTagList } from "../src/dataProcessor";
+import {
+  getNotionPageProps,
+  makeSharpTagList,
+  getNotionPages,
+} from "../src/dataProcessor";
 import { getBlogInfo } from "../src/wrapper/naverHandler";
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
 
 const NotionUtil = () => {
+  const [searchText, setSearchText] = useState("");
   const [description, setDescription] = useState(" ");
   const [blogPostTagList, setBlogPostTagList] = useState(" ");
   const [blogPostTitle, setBlogPostTitle] = useState(" ");
+  const [notionPageSearchList, setNotionPageSearchList] = useState([]);
 
   const [open, setOpen] = useState(false);
 
@@ -45,6 +50,21 @@ const NotionUtil = () => {
       console.log(error);
     } finally {
       setOpen(false);
+      setNotionPageSearchList([]);
+    }
+  }
+
+  async function showNotionSearchResult() {
+    if (searchText.length > 0) {
+      setOpen(true);
+
+      const pages = await getNotionPages(searchText);
+      console.log(pages);
+      setNotionPageSearchList(pages);
+
+      setOpen(false);
+    } else {
+      setNotionPageSearchList([]);
     }
   }
 
@@ -64,9 +84,55 @@ const NotionUtil = () => {
         }}
       >
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <NotionPageSearchBar selectedPageCallback={selectedPageCallback} />
+          <input
+            type="text"
+            placeholder="페이지 검색"
+            style={{
+              width: "60%",
+              height: "32px",
+              fontSize: "14px",
+              border: "1px solid blue",
+              borderRadius: "3px",
+              padding: "5px 5px",
+            }}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          ></input>
+          <button
+            type="button"
+            style={{
+              width: "60px",
+              height: "30px",
+              marginLeft: "10px",
+              cursor: "pointer",
+              fontSize: "12px",
+            }}
+            onClick={() => showNotionSearchResult()}
+          >
+            조회
+          </button>
         </div>
 
+        <hr></hr>
+        <div style={{ textAlign: "center", margin: "24px 0px" }}>
+          <ul>
+            {notionPageSearchList.map((item) => (
+              <li
+                key={item.id}
+                style={{
+                  display: "block",
+                  border: "1px solid blue",
+                  padding: "10px 15px",
+                  margin: "5px 10px",
+                  cursor: "pointer",
+                }}
+                onDoubleClick={() => selectedPageCallback(item.id)}
+              >
+                {item.emoji} {item.title}
+              </li>
+            ))}
+          </ul>
+        </div>
         <hr></hr>
         <div style={{ margin: "20px 0px", textAlign: "center" }}>
           <MultiLineText
