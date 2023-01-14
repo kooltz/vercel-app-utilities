@@ -14,6 +14,8 @@ import { getBlogInfo } from "../src/wrapper/naverHandler";
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
 
+let keyPressedTimer = null;
+
 const NotionUtil = () => {
   const [searchText, setSearchText] = useState("");
   const [description, setDescription] = useState(" ");
@@ -22,6 +24,8 @@ const NotionUtil = () => {
   const [notionPageSearchList, setNotionPageSearchList] = useState([]);
 
   const [open, setOpen] = useState(false);
+
+  const [popupOpen, setPopupOpen] = useState(false);
 
   async function selectedPageCallback(pageId) {
     if (pageId.length === 0) {
@@ -50,22 +54,38 @@ const NotionUtil = () => {
       console.log(error);
     } finally {
       setOpen(false);
+      setPopupOpen(false);
       setNotionPageSearchList([]);
     }
   }
 
   async function showNotionSearchResult() {
     if (searchText.length > 0) {
-      setOpen(true);
+      // setOpen(true);
 
       const pages = await getNotionPages(searchText);
       console.log(pages);
       setNotionPageSearchList(pages);
 
-      setOpen(false);
+      // setOpen(false);
+
+      setPopupOpen(pages.length > 0);
     } else {
       setNotionPageSearchList([]);
+      setPopupOpen(false);
     }
+  }
+
+  function handleSearchKeyUp(e) {
+    if (keyPressedTimer) {
+      console.log("KillTimer : ", searchText);
+      clearTimeout(keyPressedTimer);
+    }
+
+    keyPressedTimer = setTimeout(() => {
+      console.log("Timer!!!!!!", searchText);
+      showNotionSearchResult();
+    }, 500);
   }
 
   return (
@@ -91,49 +111,62 @@ const NotionUtil = () => {
               width: "60%",
               height: "32px",
               fontSize: "14px",
-              border: "1px solid blue",
+              border: "1px solid lightgray",
               borderRadius: "3px",
               padding: "5px 5px",
             }}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onKeyUp={(e) => handleSearchKeyUp(e)}
           ></input>
-          <button
-            type="button"
+
+          <div
             style={{
-              width: "60px",
-              height: "30px",
-              marginLeft: "10px",
-              cursor: "pointer",
-              fontSize: "12px",
+              display: popupOpen ? "inline-block" : "none",
+              zIndex: "19999",
             }}
-            onClick={() => showNotionSearchResult()}
           >
-            조회
-          </button>
+            <span
+              style={{
+                position: "absolute",
+                display: "inline-block",
+                border: "1px solid lightgray",
+                borderRadius: "5px",
+                backgroundColor: "white",
+                left: "366px",
+                top: "120px",
+                width: "332px",
+                maxHeight: "300px",
+                overflowY: "scroll",
+              }}
+            >
+              <ul
+                style={{
+                  textAlign: "left",
+                  margin: "0px",
+                  padding: "10px 0px",
+                  fontSize: "10pt",
+                  fontWeight: "normal",
+                }}
+              >
+                {notionPageSearchList.map((item) => (
+                  <li
+                    key={item.id}
+                    style={{
+                      display: "block",
+                      padding: "10px 15px",
+                      cursor: "pointer",
+                    }}
+                    onDoubleClick={() => selectedPageCallback(item.id)}
+                  >
+                    {item.emoji} {item.title}
+                  </li>
+                ))}
+              </ul>
+            </span>
+          </div>
         </div>
 
-        <hr></hr>
-        <div style={{ textAlign: "center", margin: "24px 0px" }}>
-          <ul>
-            {notionPageSearchList.map((item) => (
-              <li
-                key={item.id}
-                style={{
-                  display: "block",
-                  border: "1px solid blue",
-                  padding: "10px 15px",
-                  margin: "5px 10px",
-                  cursor: "pointer",
-                }}
-                onDoubleClick={() => selectedPageCallback(item.id)}
-              >
-                {item.emoji} {item.title}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <hr></hr>
         <div style={{ margin: "20px 0px", textAlign: "center" }}>
           <MultiLineText
             value={blogPostTitle}
