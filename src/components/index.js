@@ -12,3 +12,6 @@ export * from "./CustomAppBar";
 
 export { default as MultiLineText } from "./MultiLineText";
 export * from "./MultiLineText";
+
+export { default as NotionSearchInput } from "./NotionSearchInput";
+export * from "./NotionSearchInput";

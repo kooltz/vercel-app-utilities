@@ -4,7 +4,9 @@ import styles from "../../styles/Component.module.css";
 const CircularProgress2 = (props) => {
   return (
     <div
-      className={styles.circularProgress}
+      className={`${styles.circularProgress} ${
+        props.isInside ? styles.inside : styles.full
+      }`}
       style={{
         display: props.open ? "flex" : "none",
       }}

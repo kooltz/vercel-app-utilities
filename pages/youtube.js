@@ -4,28 +4,19 @@ import {
   CustomAppBar,
   MultiLineText,
   CircularProgress2,
+  NotionSearchInput,
 } from "../src/components";
-import {
-  getNotionPageProps,
-  makeSharpTagList,
-  getNotionPages,
-} from "../src/dataProcessor";
+import { getNotionPageProps, makeSharpTagList } from "../src/dataProcessor";
 import { getBlogInfo } from "../src/wrapper/naverHandler";
 import { PAGE_TITLE_CONST } from "../src/const/pageTitleConst";
 import { DESCRIPTION_TEMPLATE } from "../src/const/templateConst";
 
-let keyPressedTimer = null;
-
 const NotionUtil = () => {
-  const [searchText, setSearchText] = useState("");
   const [description, setDescription] = useState(" ");
   const [blogPostTagList, setBlogPostTagList] = useState(" ");
   const [blogPostTitle, setBlogPostTitle] = useState(" ");
-  const [notionPageSearchList, setNotionPageSearchList] = useState([]);
 
   const [open, setOpen] = useState(false);
-
-  const [popupOpen, setPopupOpen] = useState(false);
 
   async function selectedPageCallback(pageId) {
     if (pageId.length === 0) {
@@ -54,38 +45,8 @@ const NotionUtil = () => {
       console.log(error);
     } finally {
       setOpen(false);
-      setPopupOpen(false);
       setNotionPageSearchList([]);
     }
-  }
-
-  async function showNotionSearchResult() {
-    if (searchText.length > 0) {
-      // setOpen(true);
-
-      const pages = await getNotionPages(searchText);
-      console.log(pages);
-      setNotionPageSearchList(pages);
-
-      // setOpen(false);
-
-      setPopupOpen(pages.length > 0);
-    } else {
-      setNotionPageSearchList([]);
-      setPopupOpen(false);
-    }
-  }
-
-  function handleSearchKeyUp(e) {
-    if (keyPressedTimer) {
-      console.log("KillTimer : ", searchText);
-      clearTimeout(keyPressedTimer);
-    }
-
-    keyPressedTimer = setTimeout(() => {
-      console.log("Timer!!!!!!", searchText);
-      showNotionSearchResult();
-    }, 500);
   }
 
   return (
@@ -94,7 +55,7 @@ const NotionUtil = () => {
         title={PAGE_TITLE_CONST.YOUTUBE_UTIL}
         backurl="/"
       ></CustomAppBar>
-      <CircularProgress2 open={open} />
+      <CircularProgress2 open={open} isInside={false} />
 
       <main
         style={{
@@ -103,69 +64,9 @@ const NotionUtil = () => {
           margin: "24px auto",
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <input
-            type="text"
-            placeholder="페이지 검색"
-            style={{
-              width: "60%",
-              height: "32px",
-              fontSize: "14px",
-              border: "1px solid lightgray",
-              borderRadius: "3px",
-              padding: "5px 5px",
-            }}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyUp={(e) => handleSearchKeyUp(e)}
-          ></input>
-
-          <div
-            style={{
-              display: popupOpen ? "inline-block" : "none",
-              zIndex: "19999",
-            }}
-          >
-            <span
-              style={{
-                position: "absolute",
-                display: "inline-block",
-                border: "1px solid lightgray",
-                borderRadius: "5px",
-                backgroundColor: "white",
-                left: "366px",
-                top: "120px",
-                width: "332px",
-                maxHeight: "300px",
-                overflowY: "scroll",
-              }}
-            >
-              <ul
-                style={{
-                  textAlign: "left",
-                  margin: "0px",
-                  padding: "10px 0px",
-                  fontSize: "10pt",
-                  fontWeight: "normal",
-                }}
-              >
-                {notionPageSearchList.map((item) => (
-                  <li
-                    key={item.id}
-                    style={{
-                      display: "block",
-                      padding: "10px 15px",
-                      cursor: "pointer",
-                    }}
-                    onDoubleClick={() => selectedPageCallback(item.id)}
-                  >
-                    {item.emoji} {item.title}
-                  </li>
-                ))}
-              </ul>
-            </span>
-          </div>
-        </div>
+        <NotionSearchInput
+          resultCallback={selectedPageCallback}
+        ></NotionSearchInput>
 
         <div style={{ margin: "20px 0px", textAlign: "center" }}>
           <MultiLineText
