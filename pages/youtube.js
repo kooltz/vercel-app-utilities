@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import {
-  CopyButton,
   CustomAppBar,
   MultiLineText,
   CircularProgress2,
-  NotionSearchInput,
+  PageSearchInput,
 } from "../src/components";
 import { getNotionPageProps, makeSharpTagList } from "../src/dataProcessor";
 import { getBlogInfo } from "../src/wrapper/naverHandler";
@@ -45,7 +44,6 @@ const NotionUtil = () => {
       console.log(error);
     } finally {
       setOpen(false);
-      setNotionPageSearchList([]);
     }
   }
 
@@ -64,34 +62,25 @@ const NotionUtil = () => {
           margin: "24px auto",
         }}
       >
-        <NotionSearchInput
+        <PageSearchInput
           resultCallback={selectedPageCallback}
-        ></NotionSearchInput>
+        ></PageSearchInput>
 
-        <div style={{ margin: "20px 0px", textAlign: "center" }}>
-          <MultiLineText
-            value={blogPostTitle}
-            placeholder="블로그 제목"
-            height="50px"
-          />
-          <CopyButton content={blogPostTitle} />
-        </div>
-        <div style={{ margin: "20px 0px", textAlign: "center" }}>
-          <MultiLineText
-            value={description}
-            placeholder="설명"
-            height="360px"
-          />
-          <CopyButton content={description} />
-        </div>
-        <div style={{ margin: "20px 0px", textAlign: "center" }}>
-          <MultiLineText
-            value={blogPostTagList}
-            placeholder="블로그 태그"
-            height="80px"
-          />
-          <CopyButton content={blogPostTagList} />
-        </div>
+        <MultiLineText
+          value={blogPostTitle}
+          placeholder="블로그 제목을 표시합니다."
+          height="50px"
+        />
+        <MultiLineText
+          value={description}
+          placeholder="상세 설명을 표시합니다."
+          height="360px"
+        />
+        <MultiLineText
+          value={blogPostTagList}
+          placeholder="블로그 태그를 표시합니다."
+          height="80px"
+        />
       </main>
     </React.Fragment>
   );

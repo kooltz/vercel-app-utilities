@@ -1,13 +1,26 @@
 import React from "react";
-import styles from "../../styles/Component.module.css";
+import styled from "styled-components";
+
+const Content = styled.p`
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 20px 10px;
+`;
+
+const ButtonItem = styled.p`
+  margin: 15px 20px;
+`;
+const ButtonText = styled.a`
+  color: black;
+`;
 
 const CardButton = (props) => {
   return (
-    <div className={styles.cardButton}>
-      <p>
-        <a href={props.url}>{props.title}</a>
-      </p>
-    </div>
+    <Content>
+      <ButtonItem>
+        <ButtonText href={props.url}>{props.title}</ButtonText>
+      </ButtonItem>
+    </Content>
   );
 };
 export default CardButton;

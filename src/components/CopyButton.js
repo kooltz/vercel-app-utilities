@@ -1,5 +1,14 @@
 import React from "react";
-import styles from "../../styles/Component.module.css";
+import styled from "styled-components";
+
+const Button = styled.button`
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  margin: 5px 10px;
+  cursor: pointer;
+  font-size: 12px;
+`;
 
 const CopyButton = (props) => {
   const copyClipboard = (content) => {
@@ -14,13 +23,9 @@ const CopyButton = (props) => {
   };
 
   return (
-    <button
-      type="button"
-      className={styles.copyButton}
-      onClick={() => copyClipboard(props.content)}
-    >
+    <Button type="button" onClick={() => copyClipboard(props.content)}>
       복사
-    </button>
+    </Button>
   );
 };
 
