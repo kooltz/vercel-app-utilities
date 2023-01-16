@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Content = styled.p`
+const Content = styled.div`
   border: 1px solid gray;
   border-radius: 5px;
   margin: 20px 10px;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import CircularProgress2 from "./CircularProgress2";
 import { getNotionPages } from "../dataProcessor";
 import styled from "styled-components";
@@ -8,13 +8,17 @@ const Container = styled.div`
   margin-bottom: 24px;
 `;
 
+const Content = styled.div`
+  display: inline-block;
+`;
+
 const SearchInput = styled.input`
-  width: 60%;
   height: 32px;
   font-size: 14px;
   border: 1px solid lightgray;
   border-radius: 5px;
   padding: 5px 5px;
+  min-width: 360px;
 `;
 
 const ResultPopup = styled.div`
@@ -24,11 +28,11 @@ const ResultPopup = styled.div`
 
 const ResultContent = styled.span`
   position: absolute;
-  display: inline-block;
   border: 1px solid lightgray;
   border-radius: 5px;
   background-color: white;
   max-height: 300px;
+  min-width: 360px;
   overflow-y: auto;
 `;
 
@@ -44,6 +48,10 @@ const ResultListItem = styled.li`
   display: block;
   padding: 10px 15px;
   cursor: pointer;
+
+  &:hover {
+    background: rgba(224, 224, 224, 0.7);
+  }
 `;
 
 let keyPressedTimer = null;
@@ -52,14 +60,10 @@ const PageSearchInput = (props) => {
   const [searchText, setSearchText] = useState("");
   const [prevInputText, setPrevInputText] = useState("");
   const [notionPageSearchList, setNotionPageSearchList] = useState([]);
-
   const [popupOpen, setPopupOpen] = useState(false);
   const [showPopupProgress, setShowPopupProgress] = useState(false);
 
-  function closePopup() {
-    console.log("close popup!!!!!!!");
-    setPopupOpen(false);
-  }
+  const inputRef = useRef();
 
   async function showNotionSearchResult() {
     setNotionPageSearchList([]);
@@ -75,25 +79,17 @@ const PageSearchInput = (props) => {
     } else {
       setNotionPageSearchList([]);
       setPopupOpen(false);
-      // closePopup();
     }
   }
 
   function handleOnChange(e) {
-    const newText = e.target.value;
-
-    if (searchText !== newText) {
-      console.log(`searchText : ${searchText},  newText: ${newText}`);
-
-      // setPopupOpen(false);
-      // closePopup();
-    }
-    setSearchText(newText);
-
-    e.prevent;
+    console.log("handleOnChange : ", e);
+    setSearchText(e.target.value);
   }
 
   function handleKeyUp(e) {
+    console.log("handleKeyUp : ", e);
+
     if (keyPressedTimer) {
       console.log("KillTimer : ", searchText);
       clearTimeout(keyPressedTimer);
@@ -107,47 +103,52 @@ const PageSearchInput = (props) => {
     let trimmedText = searchText.trim();
     if (trimmedText !== prevInputText) {
       setPrevInputText(trimmedText);
-      closePopup();
+      setPopupOpen(false);
     }
+  }
+
+  function handleOnBlur(e) {
+    console.log("handleOnBlur : ", e);
+    // setTimeout(() => {
+    //   setPopupOpen(false);
+    // }, 100);
   }
 
   return (
     <Container>
-      <SearchInput
-        type="text"
-        placeholder="페이지 검색"
-        value={searchText}
-        onChange={handleOnChange}
-        onKeyUp={handleKeyUp}
-      ></SearchInput>
+      <Content>
+        <SearchInput
+          type="text"
+          placeholder="페이지 검색"
+          value={searchText}
+          onChange={handleOnChange}
+          onKeyUp={handleKeyUp}
+          onBlur={handleOnBlur}
+          ref={inputRef}
+        ></SearchInput>
 
-      <ResultPopup style={{ display: popupOpen ? "inline-block" : "none" }}>
-        <ResultContent
-          style={{
-            left: "366px",
-            top: "120px",
-            width: "332px",
-          }}
-        >
-          <ResultList>
-            {notionPageSearchList.map((item) => (
-              <ResultListItem
-                key={item.id}
-                onClick={() => {
-                  console.log("clicked item :: ", item);
-                  setPopupOpen(false);
-                  // closePopup();
-                  setSearchText(item.title);
-                  props.resultCallback(item.id);
-                }}
-              >
-                {item.emoji} {item.title}
-              </ResultListItem>
-            ))}
-          </ResultList>
-          <CircularProgress2 open={showPopupProgress} isInside={true} />
-        </ResultContent>
-      </ResultPopup>
+        <ResultPopup style={{ display: popupOpen ? "flex" : "none" }}>
+          <ResultContent>
+            <ResultList>
+              {notionPageSearchList.map((item) => (
+                <ResultListItem
+                  key={item.id}
+                  onClick={() => {
+                    console.log("clicked item :: ", item);
+                    inputRef.blur();
+                    setPopupOpen(false);
+                    setSearchText(item.title);
+                    props.resultCallback(item.id);
+                  }}
+                >
+                  {item.emoji} {item.title}
+                </ResultListItem>
+              ))}
+            </ResultList>
+            <CircularProgress2 open={showPopupProgress} isInside={true} />
+          </ResultContent>
+        </ResultPopup>
+      </Content>
     </Container>
   );
 };
