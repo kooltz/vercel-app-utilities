@@ -135,7 +135,7 @@ const PageSearchInput = (props) => {
                   key={item.id}
                   onClick={() => {
                     console.log("clicked item :: ", item);
-                    inputRef.blur();
+                    inputRef.current.blur();
                     setPopupOpen(false);
                     setSearchText(item.title);
                     props.resultCallback(item.id);
