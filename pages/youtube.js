@@ -53,7 +53,7 @@ const NotionUtil = () => {
         title={PAGE_TITLE_CONST.YOUTUBE_UTIL}
         backurl="/"
       ></CustomAppBar>
-      <CircularProgress2 open={open} isInside={false} />
+      {/* <CircularProgress2 open={open} isInside={false} /> */}
 
       <main
         style={{
@@ -66,21 +66,24 @@ const NotionUtil = () => {
           resultCallback={selectedPageCallback}
         ></PageSearchInput>
 
-        <MultiLineText
-          value={blogPostTitle}
-          placeholder="블로그 제목을 표시합니다."
-          height="50px"
-        />
-        <MultiLineText
-          value={description}
-          placeholder="상세 설명을 표시합니다."
-          height="360px"
-        />
-        <MultiLineText
-          value={blogPostTagList}
-          placeholder="블로그 태그를 표시합니다."
-          height="80px"
-        />
+        <CircularProgress2 open={open} isInside={true} />
+        <div style={{ display: "none" }}>
+          <MultiLineText
+            value={blogPostTitle}
+            placeholder="블로그 제목을 표시합니다."
+            height="50px"
+          />
+          <MultiLineText
+            value={description}
+            placeholder="상세 설명을 표시합니다."
+            height="360px"
+          />
+          <MultiLineText
+            value={blogPostTagList}
+            placeholder="블로그 태그를 표시합니다."
+            height="80px"
+          />
+        </div>
       </main>
     </React.Fragment>
   );

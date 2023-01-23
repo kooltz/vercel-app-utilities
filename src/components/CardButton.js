@@ -5,6 +5,11 @@ const Content = styled.div`
   border: 1px solid gray;
   border-radius: 5px;
   margin: 20px 10px;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(224, 224, 224, 0.7);
+  }
 `;
 
 const ButtonItem = styled.p`
