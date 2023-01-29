@@ -66,8 +66,8 @@ const NotionUtil = () => {
           resultCallback={selectedPageCallback}
         ></PageSearchInput>
 
-        <CircularProgress2 open={open} isInside={true} />
-        <div style={{ display: "none" }}>
+        <CircularProgress2 open={open} isInside={false} />
+        <div>
           <MultiLineText
             value={blogPostTitle}
             placeholder="블로그 제목을 표시합니다."
